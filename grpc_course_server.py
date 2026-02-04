@@ -23,8 +23,7 @@ def serve():
     print("gRPC сервер запущен на порту 50051...")
 
     # Ожидаем завершения работы сервера
-    server.wait_for_termination()
-
+    server.wait_for_termination(
 
 # Запуск сервера при выполнении скрипта
 if __name__ == "__main__":
