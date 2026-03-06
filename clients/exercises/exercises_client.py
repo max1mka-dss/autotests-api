@@ -41,7 +41,7 @@ class ExerciseClient(APIClient):
         """
         return self.get(f"/api/v1/exercises/{exercise_id}")
 
-    def create_exercise(self, request: CreateExerciseRequestDict) -> Response
+    def create_exercise(self, request: CreateExerciseRequestDict) -> Response:
         """
         Метод создания упражнения
         :param request:Словарь с title,courseId,maxScore,minScore,orderIndex,description,estimatedTime
