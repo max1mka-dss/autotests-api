@@ -3,7 +3,7 @@ from typing import TypedDict
 from httpx import Response
 
 from clients.api_client import APIClient
-
+from httpx_client import client
 
 class GetCoursesQueryDict(TypedDict):
     """
@@ -87,3 +87,17 @@ class CoursesClient(APIClient):
         :return: Ответ от сервера в виде объекта httpx.Response
         """
         return self.delete(f"/api/v1/courses/{course_id}")
+
+course_data: CreateCourseRequestDict = {
+    "title": "Programming",
+    "maxScore": 5,
+    "minScore": 2,
+    "description": "string",
+    "estimatedTime": "string",
+    "previewFileId": "b27e09b3-e667-49e6-a883-9a6c1a528259",
+    "createdByUserId": "b27e09b3-e667-49e6-a883-9a6c1a528258"
+}
+#http_client = httpx.Client(base_url = "http://localhost:8000/")
+course_req = CoursesClient(client =client )
+response = course_req.create_course_api(course_data)
+print("Response from create course",response.json())
