@@ -1,19 +1,21 @@
 from typing import TypedDict
 from httpx import Response
-
+from clients.api_client import APIClient
 class GetExercisesQueryDict (TypedDict):
     """
     Описание структуры запроса на получение списка упражнений
     """
     courseId: str
+
+
 class CreateExerciseRequestDict(TypedDict):
-        title: str
-        courseId: str
-        maxScore: int
-        minScore: int
-        orderIndex: int
-        description: str
-        estimatedTime: str
+    title: str
+    courseId: str
+    maxScore: int
+    minScore: int
+    orderIndex: int
+    description: str
+    estimatedTime: str
 class UpdateExerciseRequestDict(TypedDict):
     title: str | None
     maxScore: int | None
@@ -22,7 +24,7 @@ class UpdateExerciseRequestDict(TypedDict):
     description: str | None
     estimatedTime: str | None
 
-from clients.api_client import APIClient
+
 
 
 class ExerciseClient(APIClient):
@@ -41,14 +43,14 @@ class ExerciseClient(APIClient):
         """
         return self.get(f"/api/v1/exercises/{exercise_id}")
 
-    def create_exercise(self, request: CreateExerciseRequestDict) -> Response:
+    def create_exercise_api(self, request: CreateExerciseRequestDict) -> Response:
         """
         Метод создания упражнения
         :param request:Словарь с title,courseId,maxScore,minScore,orderIndex,description,estimatedTime
         :return:   Ответ от сервера в виде объекта httpx.Response
         """
         return self.post("/api/v1/exercises", json=request)
-    def update_exercise(self,exercise_id:str, request: UpdateExerciseRequestDict ) -> Response:
+    def update_exercise_api(self,exercise_id:str, request: UpdateExerciseRequestDict ) -> Response:
         """
         Метод обновления упраженния
         :param exercise_id: Индентификатор упражнения
@@ -56,9 +58,10 @@ class ExerciseClient(APIClient):
         :return: Ответ от сервера в виде объекта httpx.Response
         """
         return self.patch( f"/api/v1/exercises/{exercise_id}", json=request )
-    def delete_exercise(self, exercise_id:str) -> Response:
+    def delete_exercise_api(self, exercise_id:str) -> Response:
         """
         Метод удаления упражнения
         :param exercise_id: Идентификатор упражнения
         :return: Ответ от сервера в виде объекта httpx.Response
         """
+        return self.delete(f"/api/v1/exercises/{exercise_id}")
