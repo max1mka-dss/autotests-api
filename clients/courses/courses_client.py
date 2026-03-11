@@ -115,7 +115,7 @@ class CoursesClient(APIClient):
         response = self.create_course_api(request)
         return response.json()
 
-course_data: CreateCourseRequestDict = {
+"""course_data: CreateCourseRequestDict = {
     "title": "Programming",
     "maxScore": 5,
     "minScore": 2,
@@ -125,7 +125,7 @@ course_data: CreateCourseRequestDict = {
     "createdByUserId": "b27e09b3-e667-49e6-a883-9a6c1a528258"
 }
 #http_client = httpx.Client(base_url = "http://localhost:8000/")
-"""course_req = CoursesClient(client =client )
+course_req = CoursesClient(client =client )
 response = course_req.create_course_api(course_data)
 print("Response from create course",response.json())"""
 

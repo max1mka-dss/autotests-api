@@ -1,6 +1,27 @@
 from typing import TypedDict
 from httpx import Response
 from clients.api_client import APIClient
+from clients.private_http_builder import get_private_http_client,AuthenticationUserDict
+
+class Exercise(TypedDict):
+    """
+    Описание структуры упражнения
+    """
+    id: str
+    title: str
+    courseId: str
+    maxScore: int
+    minScore: int
+    orderIndex: int
+    description: str
+    estimatedTime: str
+
+class CreateExercisesResponseDict(TypedDict):
+    """
+    Описание структуры ответа на создание упражнения
+    """
+    exercises: Exercise
+
 class GetExercisesQueryDict (TypedDict):
     """
     Описание структуры запроса на получение списка упражнений
@@ -65,3 +86,19 @@ class ExerciseClient(APIClient):
         :return: Ответ от сервера в виде объекта httpx.Response
         """
         return self.delete(f"/api/v1/exercises/{exercise_id}")
+
+    def create_exerice(self,request: CreateExerciseRequestDict) -> CreateExercisesResponseDict:
+        """
+        Метод преобразования ответа  от сервера в json формат для создания упражнений
+        :param request:  данные для создания упражнения
+        :return: ответ от сервера в json
+        """
+        response=self.create_exercise_api(request)
+        return response.json()
+
+def get_exercise_client(user: AuthenticationUserDict) -> ExerciseClient:
+    """
+    Функция создает готовый экземпляяр ExerciseClient c уже настроенным клиентом.
+    :return: Готовый к использованию ExerciseClient
+    """
+    return ExerciseClient(get_private_http_client(user))
