@@ -3,7 +3,30 @@ from typing import TypedDict
 from httpx import Response
 
 from clients.api_client import APIClient
-from httpx_client import client
+from clients.private_http_builder import get_private_http_client, AuthenticationUserDict
+#from httpx_client import client
+from clients.files.files_client import File
+from clients.users.private_users_client import User
+class Course(TypedDict):
+    """
+    Описание структуры курса.
+    """
+    id: str
+    title: str
+    maxScore: int
+    minScore: int
+    description: str
+    previewFile: File  # Вложенная структура файла
+    estimatedTime: str
+    createdByUser: User
+
+
+class CreateCourseResponseDict(TypedDict):
+    """
+    Описание структуры ответа создания курса.
+    """
+    course: Course
+
 
 class GetCoursesQueryDict(TypedDict):
     """
@@ -88,6 +111,10 @@ class CoursesClient(APIClient):
         """
         return self.delete(f"/api/v1/courses/{course_id}")
 
+    def create_course(self, request: CreateCourseRequestDict) -> CreateCourseResponseDict:
+        response = self.create_course_api(request)
+        return response.json()
+
 course_data: CreateCourseRequestDict = {
     "title": "Programming",
     "maxScore": 5,
@@ -98,6 +125,9 @@ course_data: CreateCourseRequestDict = {
     "createdByUserId": "b27e09b3-e667-49e6-a883-9a6c1a528258"
 }
 #http_client = httpx.Client(base_url = "http://localhost:8000/")
-course_req = CoursesClient(client =client )
+"""course_req = CoursesClient(client =client )
 response = course_req.create_course_api(course_data)
-print("Response from create course",response.json())
+print("Response from create course",response.json())"""
+
+def get_courses_client(user:AuthenticationUserDict) -> CoursesClient:
+    return CoursesClient(client=get_private_http_client(user))
