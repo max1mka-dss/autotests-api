@@ -1,8 +1,8 @@
-from api_client_create_course import create_course_request
+#from api_client_create_course import create_course_request
 from clients.users.public_users_client import get_public_users_client,CreateUserRequestDict
 from tools.fakers import get_random_email
 from clients.private_http_builder import AuthenticationUserDict
-from clients.exercises.exercises_client import get_exercise_client, CreateExerciseRequestDict
+from clients.exercises.exercises_client import get_exercise_client, CreateExerciseRequestDict, UpdateExerciseRequestDict
 from clients.courses.courses_client import get_courses_client, CreateCourseRequestDict
 from clients.files.files_client import get_files_client,CreateFileRequestDict
 public_users_client = get_public_users_client()
@@ -56,5 +56,21 @@ create_exercise_request = CreateExerciseRequestDict(
     description= "Some description",
     estimatedTime= "8 hours",
 )
-create_exercise_response = exercises_client.create_exerice(create_exercise_request)
-print('Create exercise data:', create_course_response)
+create_exercise_response = exercises_client.create_exercise(create_exercise_request)
+print('Create exercise data:', create_exercise_response)
+
+
+print("Created exercise IDDDD",create_exercise_response['exercise']['id'])
+get_exercise_response = exercises_client.get_exercise(create_exercise_response['exercise']['id'])
+print("Get exercise data",get_exercise_response)
+
+
+update_exercise_request = UpdateExerciseRequestDict (
+    title = "Java Exercise"
+)
+print(create_exercise_response['exercise']['id'],update_exercise_request)
+update_exercise_response = exercises_client.update_exercise(exercise_id=create_exercise_response['exercise']['id'],request = update_exercise_request)
+print('Update exercise data:', update_exercise_response)
+
+delete_exercise_response = exercises_client.delete_exercise(exercise_id=create_exercise_response['exercise']['id'])
+print("Delete exercise response:", delete_exercise_response)

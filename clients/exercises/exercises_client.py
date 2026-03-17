@@ -16,11 +16,14 @@ class Exercise(TypedDict):
     description: str
     estimatedTime: str
 
+class GetExercisesResponseDict(TypedDict):
+    exercises: list[Exercise]
+
 class CreateExercisesResponseDict(TypedDict):
     """
     Описание структуры ответа на создание упражнения
     """
-    exercises: Exercise
+    exercise: Exercise
 
 class GetExercisesQueryDict (TypedDict):
     """
@@ -56,6 +59,11 @@ class ExerciseClient(APIClient):
         :return: Ответ от сервера в виде объекта httpx.Response
         """
         return self.get("/api/v1/exercises", params=query)
+    def get_exercises(self, query: GetExercisesQueryDict) -> GetExercisesResponseDict:
+        response = self.get_exercises_api(query)
+        return response.json()
+
+
     def get_exercise_api(self,exercise_id:str) -> Response:
         """
         Метод получения упржажнения
@@ -64,6 +72,10 @@ class ExerciseClient(APIClient):
         """
         return self.get(f"/api/v1/exercises/{exercise_id}")
 
+    def get_exercise(self, exercise_id :str ) -> GetExercisesResponseDict:
+        response = self.get_exercise_api(exercise_id)
+        return response.json()
+
     def create_exercise_api(self, request: CreateExerciseRequestDict) -> Response:
         """
         Метод создания упражнения
@@ -71,6 +83,7 @@ class ExerciseClient(APIClient):
         :return:   Ответ от сервера в виде объекта httpx.Response
         """
         return self.post("/api/v1/exercises", json=request)
+
     def update_exercise_api(self,exercise_id:str, request: UpdateExerciseRequestDict ) -> Response:
         """
         Метод обновления упраженния
@@ -79,6 +92,9 @@ class ExerciseClient(APIClient):
         :return: Ответ от сервера в виде объекта httpx.Response
         """
         return self.patch( f"/api/v1/exercises/{exercise_id}", json=request )
+    def update_exercise(self,exercise_id: str,  request: UpdateExerciseRequestDict) ->CreateExercisesResponseDict:
+        response = self.update_exercise_api(exercise_id,request)
+        return response.json()
     def delete_exercise_api(self, exercise_id:str) -> Response:
         """
         Метод удаления упражнения
@@ -86,8 +102,11 @@ class ExerciseClient(APIClient):
         :return: Ответ от сервера в виде объекта httpx.Response
         """
         return self.delete(f"/api/v1/exercises/{exercise_id}")
+    def delete_exercise(self,exercise_id:str) -> Response:
+        response = self.delete_exercise_api(exercise_id)
+        return response.json()
 
-    def create_exerice(self,request: CreateExerciseRequestDict) -> CreateExercisesResponseDict:
+    def create_exercise(self, request: CreateExerciseRequestDict) -> CreateExercisesResponseDict:
         """
         Метод преобразования ответа  от сервера в json формат для создания упражнений
         :param request:  данные для создания упражнения
