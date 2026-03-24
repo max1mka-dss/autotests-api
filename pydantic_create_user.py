@@ -1,32 +1,30 @@
-from pydantic import BaseModel, Field,EmailStr
-import uuid
+from pydantic import BaseModel, Field, EmailStr
 
-class UserDefaultSchema(BaseModel):
+
+class UserSchema(BaseModel):
     """
-    Базовая модель, от которой будут наследоваться модели для создания и ответов
+    Описание структуры пользователя.
     """
+    id: str
     email: EmailStr
-    last_name: str = Field(alias="lastName"),
+    last_name: str = Field(alias="lastName")
     first_name: str = Field(alias="firstName")
     middle_name: str = Field(alias="middleName")
 
-class UserSchema(UserDefaultSchema):
-    """"
-    Модель описывает структура объекта пользователя
-    """
-    id:  str = Field(default_factory=lambda: str(uuid.uuid4()))
 
-class CreateUserRequestSchema(UserDefaultSchema):
+class CreateUserRequestSchema(BaseModel):
     """
-    Модель описывает структуру запроса для создания пользователя
+    Описание структуры запроса на создание пользователя.
     """
+    email: EmailStr
     password: str
+    last_name: str = Field(alias="lastName")
+    first_name: str = Field(alias="firstName")
+    middle_name: str = Field(alias="middleName")
 
 
 class CreateUserResponseSchema(BaseModel):
     """
-    Модель описыает структура ответа запроса создания пользователя
+    Описание структуры ответа создания пользователя.
     """
     user: UserSchema
-
-
