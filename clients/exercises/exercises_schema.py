@@ -17,9 +17,15 @@ class ExerciseSchema(BaseModel):
 
 
 class GetExercisesResponseSchema(BaseModel):
+    """
+    Описание структуры ответа на получение списка упражнений
+    """
     exercises: list[ExerciseSchema]
 
 class GetExerciseResponseSchema(BaseModel):
+    """
+        Описание структуры ответа на получение  упражнения
+        """
     exercise: ExerciseSchema
 
 class CreateExercisesResponseSchema(BaseModel):
@@ -37,6 +43,9 @@ class GetExercisesQuerySchema(BaseModel):
 
 
 class CreateExerciseRequestSchema(BaseModel):
+    """
+    Описание структуры запроса на создание упражнения
+    """
     title: str
     course_id: str = Field(alias="courseId")
     max_score: int = Field(alias="maxScore")
@@ -47,6 +56,9 @@ class CreateExerciseRequestSchema(BaseModel):
 
 
 class UpdateExerciseRequestSchema(BaseModel):
+    """
+    Описание структуры запроса на обновление упраженения
+    """
     model_config = ConfigDict(populate_by_name=True)
     title: str | None
     max_score: int | None = Field(alias="maxScore")
