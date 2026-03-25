@@ -1,7 +1,7 @@
 #from api_client_create_course import create_course_request
 from clients.users.public_users_client import get_public_users_client,CreateUserRequestDict
 from tools.fakers import get_random_email
-from clients.private_http_builder import AuthenticationUserDict
+from clients.private_http_builder import AuthenticationUserSchema
 from clients.exercises.exercises_client import get_exercise_client, CreateExerciseRequestDict, UpdateExerciseRequestDict
 from clients.courses.courses_client import get_courses_client, CreateCourseRequestDict
 from clients.files.files_client import get_files_client,CreateFileRequestDict
@@ -16,7 +16,7 @@ create_user_request = CreateUserRequestDict(
 )
 create_user_response = public_users_client.create_user(create_user_request)
 
-authentication_user = AuthenticationUserDict(
+authentication_user = AuthenticationUserSchema(
     email=create_user_request['email'],
     password=create_user_request['password']
 )
