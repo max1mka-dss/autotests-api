@@ -48,4 +48,7 @@ class CreateUserRequestSchema(BaseModel):
     middle_name: str = Field(alias="middleName")
 
 class CreateUserResponseSchema(BaseModel):
+    """
+    Описание структуры ответа при создании пользователя.
+    """
     user: UserSchema
