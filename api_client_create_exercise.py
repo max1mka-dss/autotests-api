@@ -1,13 +1,15 @@
 #from api_client_create_course import create_course_request
-from clients.users.public_users_client import get_public_users_client,CreateUserRequestDict
+from clients.users.public_users_client import get_public_users_client
+from clients.users.users_schema import CreateUserRequestSchema
+from clients.files.files_schema import CreateFileRequestSchema
 from tools.fakers import get_random_email
 from clients.private_http_builder import AuthenticationUserSchema
 from clients.exercises.exercises_client import get_exercise_client, CreateExerciseRequestDict, UpdateExerciseRequestDict
 from clients.courses.courses_client import get_courses_client, CreateCourseRequestDict
-from clients.files.files_client import get_files_client,CreateFileRequestDict
+from clients.files.files_client import get_files_client
 public_users_client = get_public_users_client()
 
-create_user_request = CreateUserRequestDict(
+create_user_request = CreateUserRequestSchema(
     email=get_random_email(),
     password="string",
     lastName="string",
@@ -25,7 +27,7 @@ courses_client = get_courses_client(authentication_user)
 exercises_client = get_exercise_client(authentication_user)
 
 
-create_file_request = CreateFileRequestDict(
+create_file_request = CreateFileRequestSchema(
     filename="image.png",
     directory="courses",
     upload_file="./testdata/files/image.png"
@@ -41,8 +43,8 @@ create_course_request = CreateCourseRequestDict(
     minScore= 2,
     description= "Homework Python",
     estimatedTime= "4 weeks",
-    previewFileId= create_file_response['file']['id'],
-    createdByUserId= create_user_response['user']['id']
+    previewFileId= create_file_response.file.id,
+    createdByUserId= create_user_response.user.id
 )
 create_course_response = courses_client.create_course(create_course_request)
 print('Create course data:', create_course_response)
