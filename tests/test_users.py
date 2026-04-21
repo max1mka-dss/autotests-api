@@ -4,16 +4,18 @@ from clients.authentication.authentication_client import AuthenticationClient
 from clients.users.private_users_client import PrivateUsersClient
 from clients.users.public_users_client import get_public_users_client, PublicUsersClient
 from clients.users.users_schema import CreateUserRequestSchema, CreateUserResponseSchema, GetUserResponseSchema
-from tests.conftest import UserFixture
+from fixtures.users import UserFixture
 from tools.assertions.assert_create_user_response import assert_create_user_response
 from tools.assertions.base import assert_status_code
 from tools.assertions.schema import validate_json_schema
 from tools.assertions.user import assert_user, assert_get_user_response
+from tools.fakers import fake
 
 
 @pytest.mark.users  # Добавили маркировку users
 @pytest.mark.regression  # Добавили маркировку regression
-def test_create_user(public_users_client: PublicUsersClient):
+@pytest.mark.parametrize("email", [fake.email("google.com"), fake.email("yandex.ru")])
+def test_create_user(email:str, public_users_client: PublicUsersClient):
     # Инициализируем API-клиент для работы с пользователями
 
     # Формируем тело запроса на создание пользователя
