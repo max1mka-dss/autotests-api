@@ -5,11 +5,11 @@ from clients.users.users_schema import UserSchema, GetUserResponseSchema, Create
 
 
 def assert_user (actual: UserSchema, expected: UserSchema):
-    assert_equal(actual.user.id, expected.user.id, "id")
-    assert_equal(actual.user.email, expected.user.email, "email")
-    assert_equal(actual.user.last_name, expected.user.last_name, "last_name")
-    assert_equal(actual.user.first_name, expected.user.first_name, "first_name")
-    assert_equal(actual.user.middle_name, expected.user.middle_name, "middle_name")
+    assert_equal(actual.id, expected.id, "id")
+    assert_equal(actual.email, expected.email, "email")
+    assert_equal(actual.last_name, expected.last_name, "last_name")
+    assert_equal(actual.first_name, expected.first_name, "first_name")
+    assert_equal(actual.middle_name, expected.middle_name, "middle_name")
 
 def assert_get_user_response (get_user_response: GetUserResponseSchema,create_user_response: CreateUserResponseSchema):
     assert_user(get_user_response.user, create_user_response.user)
