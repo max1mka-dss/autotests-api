@@ -16,11 +16,11 @@ class ExerciseFixture(BaseModel):
 def exercises_client (function_user: UserFixture) -> ExerciseClient:
     return get_exercise_client (function_user.authentication_user)
 
-
+@pytest.fixture
 def function_exercise(
-        exercise_client: ExerciseClient,
+        exercises_client: ExerciseClient,
         function_course: CourseFixture
 ) -> ExerciseFixture:
     request = CreateExerciseRequestSchema( courseId=function_course.response.course.id)
-    response = exercise_client.create_exercise(request)
+    response = exercises_client.create_exercise(request)
     return ExerciseFixture (request=request, response=response)

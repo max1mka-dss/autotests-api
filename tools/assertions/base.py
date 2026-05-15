@@ -1,4 +1,4 @@
-from typing import  Any
+from typing import  Any, Sized
 def assert_status_code(actual: int, expected: int):
     """
     Проверяет, что фактический статус-код ответа соответствует ожидаемому.
@@ -37,4 +37,12 @@ def assert_is_true(actual: Any, name: str):
     assert actual, (
         f'Incorrect value: "{name}". '
         f'Expected true value but got: {actual}'
+    )
+
+
+def assert_length(actual, expected, name):
+    assert len(actual) == len(expected), (
+        f'Incorrect object length. "{name}",'
+        f'Expected length: {len(expected)}. '
+        f'Actual length: {len(actual)}'
     )
