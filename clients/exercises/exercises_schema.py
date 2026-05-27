@@ -68,5 +68,8 @@ class UpdateExerciseRequestSchema(BaseModel):
     estimated_time: str | None = Field(alias="estimatedTime",default_factory=fake.estimated_time)
 
 
-update_exec  = UpdateExerciseRequestSchema()
-print(update_exec)
+class UpdateExerciseResponseSchema(BaseModel):
+    exercise: ExerciseSchema
+#update_exec  = UpdateExerciseRequestSchema()
+#print(update_exec)
+
