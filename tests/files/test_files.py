@@ -6,7 +6,7 @@ from clients.errors_schema import ValidationErrorResponseSchema, InternalErrorRe
 from clients.files.files_client import FilesClient
 from clients.files.files_client import CreateFileRequestSchema,CreateFileResponseSchema
 from clients.files.files_schema import GetFileResponseSchema
-from httpx_get_user_me import response_me_data
+#from httpx_get_user_me import response_me_data
 from tools.assertions.base import assert_status_code
 from tools.assertions.errors import assert_file_not_found_response
 from tools.assertions.schema import validate_json_schema
@@ -85,7 +85,7 @@ class TestFiles:
 
 
     def test_get_file_with_incorrect_file_id(self, files_client: FilesClient, function_file: FileFixture):
-        get_response = files_client.get_file_api("123")
+        get_response = files_client.get_file_api("incorrect-file-id")
         get_response_data = ValidationErrorResponseSchema.model_validate_json(get_response.text)
         assert_status_code(get_response.status_code, HTTPStatus.UNPROCESSABLE_ENTITY)
         assert_get_file_with_incorrect_file_id_response(get_response_data)
