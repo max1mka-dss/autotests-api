@@ -4,13 +4,13 @@ import pytest
 
 from clients.exercises.exercises_client import ExerciseClient,CreateExerciseRequestSchema
 from clients.exercises.exercises_schema import CreateExercisesResponseSchema, GetExerciseResponseSchema, \
-    UpdateExerciseRequestSchema, UpdateExerciseResponseSchema
+    UpdateExerciseRequestSchema, UpdateExerciseResponseSchema, GetExercisesResponseSchema, GetExercisesQuerySchema
 from fixtures.courses import CourseFixture
 from fixtures.exercises import ExerciseFixture, exercises_client
 from tools.assertions.base import assert_status_code
 from tools.assertions.errors import assert_file_not_found_response, assert_exercise_not_found_response
 from tools.assertions.exercises import assert_create_exercise_response, assert_get_user_response, \
-    assert_update_exercise_response
+    assert_update_exercise_response, assert_get_exercises_response
 from tools.assertions.schema import validate_json_schema
 from clients.errors_schema import ValidationErrorSchema,InternalErrorResponseSchema
 
@@ -66,3 +66,19 @@ class TestExercises:
         assert_exercise_not_found_response (get_response_data)
 
         validate_json_schema(get_response.json(), get_response_data.model_json_schema())
+
+    def test_get_exercises(
+        self,
+        function_course: CourseFixture,
+        exercises_client: ExerciseClient,
+        function_exercise: ExerciseFixture
+
+    ):
+        query = GetExercisesQuerySchema(course_id=function_course.response.course.id)
+        response = exercises_client.get_exercises_api(query)
+        response_data = GetExercisesResponseSchema.model_validate_json(response.text)
+        assert_status_code(response.status_code, HTTPStatus.OK)
+
+        assert_get_exercises_response(response_data, [function_exercise.response])
+
+        validate_json_schema(response.json(), response_data.model_json_schema())

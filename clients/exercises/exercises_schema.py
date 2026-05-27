@@ -39,7 +39,9 @@ class GetExercisesQuerySchema(BaseModel):
     """
     Описание структуры запроса на получение списка упражнений
     """
-    courseId: str
+    model_config = ConfigDict(populate_by_name=True)
+    course_id: str = Field(alias="courseId")
+    #courseId: str
 
 
 class CreateExerciseRequestSchema(BaseModel):
@@ -72,4 +74,7 @@ class UpdateExerciseResponseSchema(BaseModel):
     exercise: ExerciseSchema
 #update_exec  = UpdateExerciseRequestSchema()
 #print(update_exec)
+
+class CreateExerciseResponseSchema(BaseModel):
+    exercise: ExerciseSchema
 
