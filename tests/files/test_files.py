@@ -67,6 +67,7 @@ class TestFiles:
 
     def test_delete_file(self, files_client: FilesClient, function_file: FileFixture):
         # 1. Удаляем файл
+        print("file id",function_file.response.file.id)
         delete_response = files_client.delete_file_api(function_file.response.file.id)
         # 2. Проверяем, что файл успешно удален (статус 200 OK)
         assert_status_code(delete_response.status_code, HTTPStatus.OK)
@@ -90,3 +91,4 @@ class TestFiles:
         assert_status_code(get_response.status_code, HTTPStatus.UNPROCESSABLE_ENTITY)
         assert_get_file_with_incorrect_file_id_response(get_response_data)
         validate_json_schema(get_response.json(), get_response_data.model_json_schema())
+

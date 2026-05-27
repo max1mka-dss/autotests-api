@@ -43,3 +43,16 @@ def assert_file_not_found_response(actual: InternalErrorResponseSchema):
     expected = InternalErrorResponseSchema(details="File not found")
     # Используем ранее созданную функцию для проверки внутренней ошибки
     assert_internal_error_response(actual, expected)
+
+
+def assert_exercise_not_found_response(actual: InternalErrorResponseSchema):
+    """
+    Функция для проверки ошибки, если файл не найден на сервере.
+
+    :param actual: Фактический ответ.
+    :raises AssertionError: Если фактический ответ не соответствует ошибке "File not found"
+    """
+    # Ожидаемое сообщение об ошибке, если файл не найден
+    expected = InternalErrorResponseSchema(details="Exercise not found")
+    # Используем ранее созданную функцию для проверки внутренней ошибки
+    assert_internal_error_response(actual, expected)

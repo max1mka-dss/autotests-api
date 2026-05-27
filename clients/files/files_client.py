@@ -34,7 +34,7 @@ class FilesClient(APIClient):
         :param file_id: Идентификатор файла.
         :return: Ответ от сервера в виде объекта httpx.Response
         """
-        return self.delete(f"/api/v1/files/{file_id}/")
+        return self.delete(f"/api/v1/files/{file_id}")
 
 
     def create_file(self, request: CreateFileRequestSchema) -> CreateFileResponseSchema:
