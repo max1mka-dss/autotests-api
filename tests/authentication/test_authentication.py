@@ -6,16 +6,25 @@ from clients.private_http_builder import AuthenticationUserSchema
 from clients.users.public_users_client import get_public_users_client, PublicUsersClient
 from clients.users.users_schema import CreateUserRequestSchema,CreateUserResponseSchema
 from fixtures.users import UserFixture
+from tools.allure.epics import AllureEpic
+from tools.allure.features import AllureFeature
+from tools.allure.stories import AllureStory
 from tools.assertions.authentication import assert_login_response
 from tools.assertions.base import assert_status_code
 from tools.assertions.schema import validate_json_schema
 from tools.allure.tags import AllureTag
 import allure
+from allure_commons.types import Severity
 
 @pytest.mark.authentication  # Добавили маркировку users
 @pytest.mark.regression  # Добавили маркировку regression
 @allure.tag (AllureTag.REGRESSION,AllureTag.AUTHENTICATION)
+@allure.epic(AllureEpic.LMS)
+@allure.feature(AllureFeature.AUTHENTICATION)
+
 class TestAuthentication:
+    allure.story(AllureStory.LOGIN)
+    @allure.severity(Severity.BLOCKER)
     @allure.title("Login with correct email and password")
     def test_login(self, function_user: UserFixture, authentication_client: AuthenticationClient):
         # print(user_creation_response)

@@ -1,0 +1,10 @@
+from enum import Enum
+
+class AllureStory(str,Enum):
+    LOGIN = "Login"
+    CREATE_ENTITY = "Create Entity"
+    GET_ENTITY = "Get entity"
+    GET_ENTITIES = "Get entities"
+    UPDATE_ENTITY = "Update entity"
+    DELETE_ENTITY = "Delete entity"
+    VALIDATE_ENTITY =  "Validate entity"
