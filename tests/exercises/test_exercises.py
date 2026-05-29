@@ -13,10 +13,14 @@ from tools.assertions.exercises import assert_create_exercise_response, assert_g
     assert_update_exercise_response, assert_get_exercises_response
 from tools.assertions.schema import validate_json_schema
 from clients.errors_schema import ValidationErrorSchema,InternalErrorResponseSchema
-
+import allure
+from tools.allure.tags import   AllureTag
 @pytest.mark.exercises
 @pytest.mark.regression
+@allure.tag(AllureTag.REGRESSION,AllureTag.EXERCISES)
 class TestExercises:
+    @allure.title("Create exercise")
+    @allure.tag(AllureTag.CREATE_ENTITY)
     def test_create_exercise(
             self,
             exercises_client: ExerciseClient,
@@ -29,6 +33,8 @@ class TestExercises:
         assert_create_exercise_response(request, response_data)
         validate_json_schema(response.json(), response_data.model_json_schema())
 
+    @allure.title("Get exercise")
+    @allure.tag(AllureTag.GET_ENTITY)
     def test_get_exercise(
         self,
         exercises_client: ExerciseClient,
@@ -40,6 +46,8 @@ class TestExercises:
         assert_get_user_response(response_data, function_exercise.response)
         validate_json_schema(response.json(), response_data.model_json_schema())
 
+    @allure.title("Update exercise")
+    @allure.tag(AllureTag.UPDATE_ENTITY)
     def test_update_exercise(
             self,
             exercises_client: ExerciseClient,
@@ -52,7 +60,8 @@ class TestExercises:
         assert_update_exercise_response(request, response_data)
         validate_json_schema(response.json(), response_data.model_json_schema())
 
-
+    @allure.title("Delete exercise")
+    @allure.tag(AllureTag.DELETE_ENTITY)
     def test_delete_exercise ( self,
     exercises_client: ExerciseClient,
     function_exercise: ExerciseFixture):
@@ -67,6 +76,8 @@ class TestExercises:
 
         validate_json_schema(get_response.json(), get_response_data.model_json_schema())
 
+    @allure.title("Get exercises")
+    @allure.tag(AllureTag.GET_ENTITIES)
     def test_get_exercises(
         self,
         function_course: CourseFixture,
