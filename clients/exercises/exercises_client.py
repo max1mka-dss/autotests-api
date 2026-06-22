@@ -4,9 +4,10 @@ from clients.api_client import APIClient
 from clients.private_http_builder import get_private_http_client,AuthenticationUserSchema
 from clients.exercises.exercises_schema import ExerciseSchema, GetExercisesResponseSchema, GetExercisesQuerySchema, \
     UpdateExerciseRequestSchema, CreateExercisesResponseSchema, CreateExerciseRequestSchema, GetExerciseResponseSchema
-
+import allure
 
 class ExerciseClient(APIClient):
+    @allure.step("Get exercises")
     def get_exercises_api(self, query: GetExercisesQuerySchema) -> Response:
         """
         Метод получения списка упражнений
@@ -18,7 +19,7 @@ class ExerciseClient(APIClient):
         response = self.get_exercises_api(query)
         return GetExercisesResponseSchema.model_validate_json(response.text)
 
-
+    @allure.step("Get exercise by id {exercise_id}")
     def get_exercise_api(self,exercise_id:str) -> Response:
         """
         Метод получения упржажнения
@@ -31,6 +32,7 @@ class ExerciseClient(APIClient):
         response = self.get_exercise_api(exercise_id)
         return GetExerciseResponseSchema.model_validate_json(response.text)
 
+    @allure.step("Create exercise")
     def create_exercise_api(self, request: GetExercisesQuerySchema) -> Response:
         """
         Метод создания упражнения
@@ -39,6 +41,7 @@ class ExerciseClient(APIClient):
         """
         return self.post("/api/v1/exercises", json=request.model_dump(by_alias=True))
 
+    @allure.step("Update exercise by id {exercise_id}")
     def update_exercise_api(self,exercise_id:str, request: UpdateExerciseRequestSchema ) -> Response:
         """
         Метод обновления упраженния
@@ -50,6 +53,8 @@ class ExerciseClient(APIClient):
     def update_exercise(self,exercise_id: str,  request: UpdateExerciseRequestSchema) ->CreateExercisesResponseSchema:
         response = self.update_exercise_api(exercise_id,request)
         return CreateExercisesResponseSchema.model_validate_json(response.text)
+
+    @allure.step("Delete exercise by id {exercise_id}")
     def delete_exercise_api(self, exercise_id:str) -> Response:
         """
         Метод удаления упражнения
