@@ -11,9 +11,9 @@ from tools.allure.epics import AllureEpic
 from tools.allure.features import AllureFeature
 from tools.allure.stories import AllureStory
 from tools.assertions.base import assert_status_code
-from tools.assertions.errors import assert_file_not_found_response, assert_exercise_not_found_response
-from tools.assertions.exercises import assert_create_exercise_response, assert_get_user_response, \
-    assert_update_exercise_response, assert_get_exercises_response
+from tools.assertions.errors import assert_file_not_found_response
+from tools.assertions.exercises import assert_create_exercise_response, assert_get_exercise_response, \
+    assert_update_exercise_response, assert_get_exercises_response,assert_exercise_not_found_response
 from tools.assertions.schema import validate_json_schema
 from clients.errors_schema import ValidationErrorSchema,InternalErrorResponseSchema
 import allure
@@ -57,7 +57,7 @@ class TestExercises:
         response = exercises_client.get_exercise_api(function_exercise.response.exercise.id)
         response_data = GetExerciseResponseSchema.model_validate_json(response.text)
         assert_status_code(response.status_code, HTTPStatus.OK)
-        assert_get_user_response(response_data, function_exercise.response)
+        assert_get_exercise_response(response_data, function_exercise.response)
         validate_json_schema(response.json(), response_data.model_json_schema())
 
     @allure.title("Update exercise")

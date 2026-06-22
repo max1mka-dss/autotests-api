@@ -60,7 +60,7 @@ def assert_get_courses_response(
 
     for index, create_course_response in enumerate(create_course_responses):
         assert_course(get_courses_response.courses[index], create_course_response.course)
-@allure.step("Create course response")
+@allure.step("Check create course response")
 def assert_create_course_response(
         request : CreateCourseRequestSchema,
         response: CreateCourseResponseSchema
