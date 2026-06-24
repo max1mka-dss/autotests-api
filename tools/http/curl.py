@@ -47,8 +47,8 @@ def make_curl_from_request(request: Request) -> str:
 def print_request(request: Request):
     print(f"Выполняем запрос {request.method}")
 
-client= Client(event_hooks={"request": [print_request]} )
-client.get("http://localhost:8000/api/v1/users/")
-client.post("http://localhost:8000/api/v1/users/")
-client.patch("http://localhost:8000/api/v1/users/")
-client.delete("http://localhost:8000/api/v1/users/")
+#client= Client(event_hooks={"request": [print_request]} )
+# client.get("http://localhost:8000/api/v1/users/")
+# client.post("http://localhost:8000/api/v1/users/")
+# client.patch("http://localhost:8000/api/v1/users/")
+# client.delete("http://localhost:8000/api/v1/users/")
