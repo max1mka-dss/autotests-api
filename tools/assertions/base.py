@@ -1,5 +1,9 @@
 from typing import  Any, Sized
 import allure
+from tools.logger import get_logger
+
+logger = get_logger("BASE ASSERTIONS")
+
 
 @allure.step("Check that response status code equals to {expected}")
 def assert_status_code(actual: int, expected: int):
@@ -10,6 +14,7 @@ def assert_status_code(actual: int, expected: int):
     :param expected: Ожидаемый статус-код.
     :raises AssertionError: Если статус-коды не совпадают.
     """
+    logger.info(f"Check that response status code equals to {expected}")
     assert actual == expected, (
         f'Incorrect response status code. '
         f'Expected status code: {expected}. '
@@ -25,13 +30,14 @@ def assert_equal(actual: Any, expected: Any, name: str):
     :param expected: Ожидаемое значение.
     :raises AssertionError: Если фактическое значение не равно ожидаемому.
     """
+    logger.info(f'Check "{name}" equals to {expected}')
     assert actual == expected, (
         f'Incorrect value: "{name}". '
         f'Expected value: {expected}. '
         f'Actual value: {actual}'
     )
 
-@allure.step("Check that {name} is T   true")
+@allure.step("Check that {name} is true")
 def assert_is_true(actual: Any, name: str):
     """
     Проверяет, что фактическое значение является истинным.
@@ -40,6 +46,7 @@ def assert_is_true(actual: Any, name: str):
     :param actual: Фактическое значение.
     :raises AssertionError: Если фактическое значение ложно.
     """
+    logger.info(f'Check "{name}" is true')
     assert actual, (
         f'Incorrect value: "{name}". '
         f'Expected true value but got: {actual}'
@@ -47,7 +54,8 @@ def assert_is_true(actual: Any, name: str):
 
 
 def assert_length(actual, expected, name):
-    with allure.step("Check that lengt of {name} equals to {len(expected)}"):
+    with allure.step("Check that length of {name} equals to {len(expected)}"):
+        logger.info(f'Check that length of"{name}" equals to {len(expected)}')
         assert len(actual) == len(expected), (
             f'Incorrect object length. "{name}",'
             f'Expected length: {len(expected)}. '
